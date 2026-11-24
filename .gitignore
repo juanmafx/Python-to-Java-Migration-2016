@@ -1,0 +1,9 @@
+build/
+target/
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.hypothesis/
+.jqwik-database
+*.sqlite3

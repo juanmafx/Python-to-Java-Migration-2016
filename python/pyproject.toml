@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "integer-sum"
+version = "1.0.0"
+description = "Arbitrary-precision integer sum with behavior verified against its Java port"
+requires-python = ">=3.14"
+license = "Apache-2.0"
+dependencies = []
+
+[project.scripts]
+integer-sum = "integer_sum.cli.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", ".."]
+addopts = "-ra --strict-markers"

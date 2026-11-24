@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-24T02:20:52Z",
-  "base_commit": "79dc8a2",
+  "generated_at": "2026-11-24T03:33:42Z",
+  "base_commit": "6c3bcbb",
   "environment": {
     "python": "3.14.4",
     "java": "openjdk version \"17.0.21.1\" 2026-11-17"
@@ -8,14 +8,22 @@
   "suites": {
     "python": {
       "counts": {
-        "total": 40,
-        "passed": 40,
+        "total": 54,
+        "passed": 54,
         "failed": 0,
         "skipped": 0
       },
       "tests": [
         {
           "name": "tests.test_cli.test_bounds_the_bytes_it_reads",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_cli.test_completes_partial_writes",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_cli.test_full_device_is_reported_without_traceback",
           "outcome": "passed"
         },
         {
@@ -28,6 +36,22 @@
         },
         {
           "name": "tests.test_cli.test_reports_invalid_input_without_echoing_it",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_cli.test_reports_missing_streams",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_cli.test_reports_read_failure_without_traceback",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_cli.test_reports_write_failure_instead_of_succeeding",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_cli.test_widest_sum_ignores_lower_interpreter_digit_limit",
           "outcome": "passed"
         },
         {
@@ -48,6 +72,38 @@
         },
         {
           "name": "tests.test_corpus.test_versions_are_consistent",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_differential_options.test_accepts_range_limits",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_differential_options.test_rejects_out_of_range_options[arguments0]",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_differential_options.test_rejects_out_of_range_options[arguments1]",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_differential_options.test_rejects_out_of_range_options[arguments2]",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_differential_options.test_rejects_out_of_range_options[arguments3]",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_differential_options.test_rejects_out_of_range_options[arguments4]",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_differential_options.test_rejects_out_of_range_options[arguments5]",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.test_differential_options.test_rejects_out_of_range_options[arguments6]",
           "outcome": "passed"
         },
         {
@@ -178,8 +234,8 @@
     },
     "java": {
       "counts": {
-        "total": 29,
-        "passed": 29,
+        "total": 31,
+        "passed": 31,
         "failed": 0,
         "skipped": 0
       },
@@ -198,6 +254,14 @@
         },
         {
           "name": "io.github.juanmafx.integersum.cli.ApplicationTest.reportsInvalidInputWithoutEchoingIt",
+          "outcome": "passed"
+        },
+        {
+          "name": "io.github.juanmafx.integersum.cli.ApplicationTest.reportsReadFailureWithoutStackTrace",
+          "outcome": "passed"
+        },
+        {
+          "name": "io.github.juanmafx.integersum.cli.ApplicationTest.reportsWriteFailureInsteadOfSucceeding",
           "outcome": "passed"
         },
         {

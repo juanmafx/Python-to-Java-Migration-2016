@@ -32,6 +32,13 @@ def tool_version(command: list[str]) -> str:
     return (completed.stdout or completed.stderr).splitlines()[0].strip()
 
 
+def base_commit() -> str:
+    try:
+        return tool_version(["git", "rev-parse", "--short", "HEAD"])
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return "unavailable"
+
+
 def render_markdown(report: dict) -> str:
     lines = [
         "# Test Report",
@@ -66,7 +73,7 @@ def main() -> int:
     differential = json.loads((build / "differential.json").read_text(encoding="utf-8"))
     report = {
         "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "base_commit": tool_version(["git", "rev-parse", "--short", "HEAD"]),
+        "base_commit": base_commit(),
         "environment": {
             "python": platform.python_version(),
             "java": tool_version(["java", "-version"]),

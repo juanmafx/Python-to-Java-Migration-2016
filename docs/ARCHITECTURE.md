@@ -4,7 +4,7 @@
 
 1. One written input contract, implemented identically in two languages.
 2. Pure core logic, with all I/O at the edge.
-3. Equivalence established by execution rather than by reading the code.
+3. Equivalence checked by executing both programs on a defined corpus. This is strong evidence, not a formal proof.
 
 ## Module structure
 
@@ -36,6 +36,8 @@ The project is a command-line tool, so it has no `frontend/` or `backend/` split
 stdin (bounded read) -> tokenize -> validate -> add -> render -> stdout
                                        |
                                        `-> typed error -> stderr, exit 2
+
+read or write failure -> io_failure -> stderr, exit 3
 ```
 
 ## Module mapping
@@ -56,6 +58,7 @@ stdin (bounded read) -> tokenize -> validate -> add -> render -> stdout
 | Digit grammar | Each runtime's own rules, including non-ASCII digits | ASCII `[+-]?[0-9]+` in both |
 | Underscores | Accepted by Python only | Rejected in both |
 | Failure mode | Uncaught exception and stack trace | Typed error code, exit 2 |
+| I/O failure | Python traceback; Java `System.out` ignored write errors | `io_failure`, exit 3 in both |
 | Line ending | Platform-dependent in Java `println` | Always LF |
 
 ## Complexity
@@ -70,7 +73,7 @@ Let `d` be the larger operand's digit count and `n` the input size in bytes.
 | Addition | `O(d)` | `O(d)` |
 | Binary to decimal rendering | at most `O(d^2)` | `O(d)` |
 
-Decimal conversion dominates. The limits `n <= 16,384` and `d <= 4,096` turn that superlinear cost into a fixed upper bound. The digit limit also stays below CPython's default 4,300-digit conversion guard, so both runtimes accept the same inputs.
+Decimal conversion dominates. The limits `n <= 16,384` and `d <= 4,096` turn that superlinear cost into a fixed upper bound. The Python CLI sets its integer conversion limit to 4,097 digits, the width of the largest possible sum, so `PYTHONINTMAXSTRDIGITS` cannot make the runtimes disagree.
 
 ## Verification strategy
 
@@ -82,6 +85,15 @@ Decimal conversion dominates. The limits `n <= 16,384` and `d <= 4,096` turn tha
 The corpus combines all pairs of 32-bit and 64-bit boundary values, maximum-width operands, malformed inputs, and seeded random cases. The same seed always yields the same corpus.
 
 To confirm the harness detects real defects, the 32-bit addition was temporarily reintroduced in a scratch copy of the Java port. On a 141-case corpus the differential run reported 94 mismatches and exited non-zero.
+
+## Known limitations
+
+Two failures happen outside the application code, so the implementations differ:
+
+- If standard input is a directory, CPython aborts during startup with exit code 1, before the CLI runs. Java reports `io_failure`.
+- If standard input is closed, the JVM can reuse descriptor 0 for an internal file, so Java reports an input error with exit code 2. Python reports `io_failure`.
+
+Neither case echoes input.
 
 ## Recommended evolution
 

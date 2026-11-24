@@ -7,6 +7,7 @@ First versioned release, prepared in 2026 from study code first committed in 201
 - Python and Java now follow one written input contract.
 - Java no longer overflows; both versions handle operands of up to 4,096 digits.
 - Invalid input yields a stable error code and exit status `2` instead of a stack trace.
+- Read and write failures yield `error: io_failure` and exit status `3`.
 - A seeded differential harness compares both implementations process by process.
 
 ## Breaking changes
@@ -14,6 +15,7 @@ First versioned release, prepared in 2026 from study code first committed in 201
 - Files moved to `python/` and `java/`.
 - Inputs such as `1_0` and non-ASCII digits are now rejected.
 - Python now accepts two operands on one line, matching the Java behavior.
+- Exit status `3` is new and signals an I/O failure.
 
 ## Verification
 

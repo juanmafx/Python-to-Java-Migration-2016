@@ -15,4 +15,4 @@ This is a personal project maintained on a best-effort basis, so no response tim
 
 ## Security model
 
-The tools read untrusted bytes from standard input. They use no network, credentials, or files, except the optional SQLite path an operator passes to the differential tool.
+The solvers read untrusted bytes from standard input and use no network, credentials, or files. The differential tool is a development tool: it starts the Python and Java solvers as subprocesses without a shell, and it writes only to the `--output` and `--database` paths an operator passes.

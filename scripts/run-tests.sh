@@ -2,7 +2,7 @@
 # Runs every suite and writes reports/tests/ from the actual results.
 set -uo pipefail
 
-cd "$(dirname "${BASH_SOURCE[0]}")/.."
+cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 1
 python_bin="${PYTHON:-python3}"
 [[ "$python_bin" == */* && "$python_bin" != /* ]] && python_bin="$PWD/$python_bin"
 maven_bin="${MAVEN:-mvn}"

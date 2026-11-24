@@ -10,7 +10,7 @@ from tools.differential.corpus import (
 )
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
-CHI_SQUARE_CRITICAL_DF63_ALPHA_0001 = 103.5
+CHI_SQUARE_CRITICAL_DF63_ALPHA_0001 = 103.44
 
 
 def test_corpus_is_reproducible_for_a_seed():

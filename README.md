@@ -1,6 +1,6 @@
 # Python-to-Java-Migration-2016
 
-A small, rigorously verified case study in migrating a program from Python to Java without changing its behavior. Both implementations solve one integer-sum problem, and a differential test harness proves they agree.
+A small case study in migrating a program from Python to Java under one written input contract. Both implementations solve the same integer-sum problem, and a differential test harness compares them process by process on a seeded corpus.
 
 > **Project history:** originally created in 2017 (first commit 2017-09-21), modernized in 2026. The repository name keeps its original "2016" label.
 
@@ -26,6 +26,7 @@ Version 1.0.0 defines one explicit input contract, implements it in both languag
 - Accepts operands separated by any mix of space, tab, CR, or LF.
 - Accepts only ASCII operands matching `[+-]?[0-9]+`.
 - Rejects invalid input with exit code `2` and a stable error code on standard error. Input is never echoed.
+- Reports read and write failures as `error: io_failure` with exit code `3`, so lost output is never reported as success.
 
 | Error code | Meaning |
 | --- | --- |
@@ -33,6 +34,7 @@ Version 1.0.0 defines one explicit input contract, implements it in both languag
 | `wrong_operand_count` | Input does not contain exactly two tokens |
 | `invalid_operand` | A token is not a signed ASCII decimal integer |
 | `operand_too_long` | An operand has more than 4,096 digits |
+| `io_failure` | Standard input could not be read or the result could not be written (exit code `3`) |
 
 ## Architecture
 
@@ -85,13 +87,13 @@ PYTHONPATH=python/src .venv/bin/python -m tools.differential --seed 20260101 --d
 
 ## Configuration
 
-The solvers take no configuration, environment variables, or secrets. Their limits are constants in `core/parsing.py` and `OperandParser.java`.
+The solvers define no options, configuration files, or secrets. Their limits are constants in `core/parsing.py` and `OperandParser.java`. The Python CLI sets its own integer conversion limit, so `PYTHONINTMAXSTRDIGITS` cannot change which inputs it accepts.
 
 | Differential option | Default | Purpose |
 | --- | --- | --- |
 | `--seed` | `20260101` | Seed for the generated corpus |
 | `--random-cases` | `200` | Generated cases added to the fixed ones |
-| `--workers` | `4` | Concurrent case runners |
+| `--workers` | `4` | Concurrent case runners (1 to 256) |
 | `--output` | none | JSON summary path |
 | `--database` | none | Optional SQLite results path |
 
@@ -117,7 +119,7 @@ The latest results are in [reports/tests/TEST_REPORT.md](reports/tests/TEST_REPO
 
 ## Security notes
 
-Input size and operand length are bounded before conversion, errors never reflect input, and CI runs with read-only permissions and pinned actions. See [SECURITY.md](SECURITY.md) and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
+Input size and operand length are bounded before conversion, errors never reflect input, and the CI workflow is configured with read-only permissions and pinned actions. See [SECURITY.md](SECURITY.md) and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
 
 ## License and attribution
 

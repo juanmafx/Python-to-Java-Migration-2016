@@ -1,4 +1,4 @@
-# Python-to-Java-Migration-2016
+# python-to-java-migration
 
 A small case study in migrating a program from Python to Java under one written input contract. Both implementations solve the same integer-sum problem, and a differential test harness compares them process by process on a seeded corpus.
 
